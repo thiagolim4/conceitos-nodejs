@@ -11,7 +11,7 @@ app.use(cors());
 const repositories = [];
 
 app.get("/repositories", (request, response) => {
-  return json.response(repositories);
+  return response.json(repositories);
 });
 
 app.post("/repositories", (request, response) => {
@@ -45,7 +45,7 @@ app.put("/repositories/:id", (request, response) => {
 		return response.status(400).json({ error: 'Repository not found.'})
   }
 
-  repositories[repositoryIndex] = {...repositories[respositoryIndex], title, url, techs};
+  repositories[repositoryIndex] = {...repositories[repositoryIndex], title, url, techs};
 
   return response.json(repositories[repositoryIndex]);
 
@@ -56,7 +56,7 @@ app.delete("/repositories/:id", (request, response) => {
   const { id } = request.params;
 
 	// procura o repository atraves do id
-	const repositoryIndex = repository.findIndex(repository => repository.id == id);
+	const repositoryIndex = repositories.findIndex(repository => repository.id == id);
 
 	// seta o status do retorno e uma mensagem
 	if (repositoryIndex < 0){
@@ -84,7 +84,7 @@ app.post("/repositories/:id/like", (request, response) => {
   let { likes } = repositories[repositoryIndex];
   likes = likes + 1;
 
-  repositories[repositoryIndex] = {...repositories[respositoryIndex], likes};
+  repositories[repositoryIndex] = {...repositories[repositoryIndex], likes};
 
   return response.json(repositories[repositoryIndex]);
 });
